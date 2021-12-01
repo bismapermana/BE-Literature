@@ -23,6 +23,45 @@ exports.getdocuments = async (req, res) => {
       attributes: {
         exclude: ["idUser", "updatedAt", "createdAt"],
       },
+      where: {
+        status: "Approved",
+      },
+    });
+
+    res.status(200).send({
+      status: "success",
+      documents,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      status: "failed",
+    });
+  }
+};
+exports.getAllDocuments = async (req, res) => {
+  try {
+    const documents = await document.findAll({
+      include: {
+        model: user,
+        as: "users",
+        attributes: {
+          exclude: [
+            "updatedAt",
+            "createdAt",
+            "id",
+            "status",
+            "profilePicture",
+            "password",
+            "gender",
+            "phone",
+            "address",
+          ],
+        },
+      },
+      attributes: {
+        exclude: ["idUser", "updatedAt", "createdAt"],
+      },
     });
 
     res.status(200).send({
@@ -49,7 +88,6 @@ exports.getdocumentbyId = async (req, res) => {
           exclude: [
             "updatedAt",
             "createdAt",
-            "id",
             "status",
             "profilePicture",
             "gender",

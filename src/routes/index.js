@@ -9,8 +9,14 @@ const {
   getdocumentbyToken,
   verifieddocuments,
   getdocumentbyId,
+  getAllDocuments,
 } = require("../controllers/document");
-const { addCollection, getCollections } = require("../controllers/collection");
+const {
+  addCollection,
+  getCollections,
+  checkCollection,
+  deleteCollection,
+} = require("../controllers/collection");
 
 const { auth, admin } = require("../middlewares/auth");
 const { uploadFile } = require("../middlewares/uploadFile");
@@ -27,8 +33,11 @@ router.get("/document", auth, getdocumentbyToken);
 router.post("/document", auth, uploadFile("doc"), addDocument);
 router.patch("/document/:id", auth, admin, verifieddocuments);
 router.get("/document/:id", auth, getdocumentbyId);
+router.get("/allDocuments", auth, getAllDocuments);
 
 router.post("/collection", auth, addCollection);
 router.get("/collection", auth, getCollections);
+router.get("/checkCollection/:id", auth, checkCollection);
+router.delete("/collection/:id", auth, deleteCollection);
 
 module.exports = router;

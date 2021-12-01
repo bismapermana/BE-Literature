@@ -47,9 +47,12 @@ exports.register = async (req, res) => {
       password: hashedPassword,
     });
 
+    const token = jwt.sign({ id: createData.id }, process.env.SECRET_KEY);
+
     res.status(200).send({
       status: "success",
       createData,
+      token,
     });
   } catch (error) {
     console.log(error);
